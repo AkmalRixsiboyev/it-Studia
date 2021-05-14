@@ -16,6 +16,7 @@ function App() {
         } else if (name && isEditing) {
 
         } else {
+            showAlert(true,'success','заметка было добавлено успешно')
             const newItem = {id : new Date ().getTime ().toString (), title : name};
             setList ( [...list, newItem] );
             setName ( "" );
@@ -24,7 +25,14 @@ function App() {
     const showAlert = (show= false, type = '', msg= '')=>{
         setAlert({show, type , msg});
     };
-
+    const clearList=()=>{
+        showAlert(true, 'danger', 'заметка было полностью очищена')
+        setList([])
+    }
+ const removeItem= (id)=> {
+        showAlert(true, 'danger', 'заметка было удалено')
+     setList(list.filter((item) => item.id !==id ))
+ }
     return (
         <section className={'section-center'}>
             <form className={'grocery-form'} onSubmit={handleSubmit}>
@@ -43,8 +51,8 @@ function App() {
             </form>
             {list.length> 0 &&(
                 <div className="grocery-container">
-                    <List items={list}/>
-                    <div className="clear-btn"> очистиь </div>
+                    <List items={list} removeItem={removeItem} />
+                    <div onClick={clearList} className="clear-btn"> очистиь </div>
                 </div>
             )}
         </section>

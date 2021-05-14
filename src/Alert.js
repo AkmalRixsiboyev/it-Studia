@@ -5,9 +5,10 @@ const Alert = ({type,msg,removeAlert}) => {
      const  timeout = setTimeout(()=>{
         removeAlert();
      },3000);
-     return()=> clearInterval()
+     return()=> clearInterval(timeout)
   },[]);
-   return <p className={`alert alert-${type}`} >{msg} </p>
+   return   <p className={`alert alert-${type}`} >{msg} </p>;
+
 }
 
 export default Alert
