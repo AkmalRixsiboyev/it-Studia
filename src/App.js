@@ -12,7 +12,7 @@ function App() {
     const handleSubmit = (e) => {
         e.preventDefault ();
         if (!name) {
-
+            showAlert(true,'danger', "пожалуйста заполните форму ")
         } else if (name && isEditing) {
 
         } else {
@@ -21,12 +21,15 @@ function App() {
             setName ( "" );
         }
     };
+    const showAlert = (show= false, type = '', msg= '')=>{
+        setAlert({show, type , msg});
+    };
 
     return (
         <section className={'section-center'}>
             <form className={'grocery-form'} onSubmit={handleSubmit}>
                 {
-                    alert.show && <Alert/>
+                    alert.show && <Alert {...alert} removeAlert={showAlert}/>
 
                 }
                 <h3>Список Заьетки</h3>
@@ -38,10 +41,12 @@ function App() {
                     </button>
                 </div>
             </form>
-            <div className="grocery-container">
-                <List items={list}/>
-                <div className="clear-btn"> очистиь </div>
-            </div>
+            {list.length> 0 &&(
+                <div className="grocery-container">
+                    <List items={list}/>
+                    <div className="clear-btn"> очистиь </div>
+                </div>
+            )}
         </section>
     )
 }
