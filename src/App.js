@@ -14,6 +14,18 @@ function App() {
         if (!name) {
             showAlert(true,'danger', "пожалуйста заполните форму ")
         } else if (name && isEditing) {
+              setList(
+                  list.map((item)=>{
+                      if (item.id === editID){
+                          return{ ...item, title:name};
+                      }
+                      return item
+                  })
+              );
+              setName('');
+            setEditID(null);
+            setIsEditing(false );
+            showAlert(true, 'success', 'Успешно было изменено ');
 
         } else {
             showAlert(true,'success','заметка было добавлено успешно')
@@ -33,11 +45,17 @@ function App() {
         showAlert(true, 'danger', 'заметка было удалено')
      setList(list.filter((item) => item.id !==id ))
  }
+ const  editItem =(id)=>{
+    const specificItem= list.find((item)=> item.id ===id);
+    setIsEditing(true);
+    setEditID(id)
+     setName(specificItem.title)
+ }
     return (
         <section className={'section-center'}>
             <form className={'grocery-form'} onSubmit={handleSubmit}>
                 {
-                    alert.show && <Alert {...alert} removeAlert={showAlert}/>
+                    alert.show && <Alert {...alert} removeAlert={showAlert} List={List}/>
 
                 }
                 <h3>Список Заьетки</h3>
@@ -51,7 +69,7 @@ function App() {
             </form>
             {list.length> 0 &&(
                 <div className="grocery-container">
-                    <List items={list} removeItem={removeItem} />
+                    <List items={list} removeItem={removeItem} editItem={editItem} />
                     <div onClick={clearList} className="clear-btn"> очистиь </div>
                 </div>
             )}
